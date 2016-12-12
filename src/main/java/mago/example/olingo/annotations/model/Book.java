@@ -2,12 +2,17 @@ package mago.example.olingo.annotations.model;
 
 import org.apache.olingo.odata2.api.annotation.edm.*;
 
+import javax.persistence.*;
+
 @EdmEntityType
 @EdmEntitySet
+@Entity
 public class Book {
 
     @EdmKey
     @EdmProperty
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @EdmProperty
@@ -17,9 +22,10 @@ public class Book {
     private String description;
 
     @EdmNavigationProperty(
-            name = "author",
+            name = "Author",
             toType = Author.class,
             toMultiplicity = EdmNavigationProperty.Multiplicity.ZERO_OR_ONE)
+    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.PERSIST)
     private Author author;
 
     public Book() {
